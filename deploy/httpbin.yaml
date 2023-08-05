@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-httpbin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-httpbin
+  template:
+    metadata:
+      labels:
+        app: my-httpbin
+    spec:
+      containers:
+        - name: my-httpbin
+          image: kennethreitz/httpbin
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-httpbin-service
+spec:
+  selector:
+    app: my-httpbin
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

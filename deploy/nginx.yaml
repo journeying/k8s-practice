@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-json
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy-json
+  template:
+    metadata:
+      labels:
+        app: dummy-json
+    spec:
+      containers:
+        - name: dummy-json-service
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: dummy-json-volume
+              mountPath: /usr/share/nginx/html/dummy.json
+              subPath: dummy.json
+      volumes:
+        - name: dummy-json-volume
+          configMap:
+            name: dummy-json-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: dummy-json
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

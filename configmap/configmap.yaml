@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dummy-json-configmap
+data:
+  dummy.json: |
+    {
+      "message": "Hello, this is a dummy JSON response!"
+    }
